@@ -1,7 +1,7 @@
 const router = require('express').Router()
 
 const Bike = require('../models/bike.model')
-const Transaction = require('../models/Transaction.model')
+const Transaction = require('../models/transaction.model')
 
 router.get('/available', async (req, res) => {
     try {
