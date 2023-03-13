@@ -3,6 +3,8 @@ const router = require('express').Router()
 const Bike = require('../models/bike.model')
 const Transaction = require('../models/transaction.model')
 
+router.use('/auth', require('./auth'))
+
 router.get('/available', async (req, res) => {
     try {
         const bike = await Bike.find({'status' : 'available' })
@@ -31,8 +33,8 @@ router.get('/exceed', async (req, res) => {
     }
 })
 
-router.post('/lend/:student_id/:bike_id', async (req, res) => {
-    const { student_id, bike_id } = req.params
+router.post('/lend', async (req, res) => {
+    const { student_id, bike_id } = req.body
 
     try {
         const bike = await Bike.findOne({'bike_id' : bike_id })
@@ -41,7 +43,7 @@ router.post('/lend/:student_id/:bike_id', async (req, res) => {
 
         if(transaction.length === 0){
             if(bike.status === 'available'){
-                const newTransaction = new Transaction({ 'student_id' : student_id, 'bike_id' : bike_id, 'date' : date })
+                const newTransaction = new Transaction({ ...req.body, 'date': date })
                 await newTransaction.save()
 
                 await Bike.findOneAndUpdate({'bike_id' : bike_id }, { 'status' : 'using' })

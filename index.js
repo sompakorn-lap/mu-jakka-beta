@@ -1,11 +1,13 @@
 const express = require('express')
 const path = require('path')
 const cors = require('cors')
+const cookieParser = require('cookie-parser')
 const mongoose = require('mongoose')
 
 const app = express()
-app.use(cors())
 app.use(express.json())
+app.use(cors({ credentials: true }))
+app.use(cookieParser())
 
 mongoose.connect('mongodb+srv://MU-jakka-admin:jtuSG4QLqQmcqkzb@beta.vqpizbo.mongodb.net/?retryWrites=true&w=majority', {useNewUrlParser: true, useUnifiedTopology: true})
 
