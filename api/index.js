@@ -62,6 +62,17 @@ router.post('/lend', async (req, res) => {
     }
 })
 
+router.put('/fixing/:bike_id', async (req, res) => {
+    const { bike_id } = req.params
+
+    try {
+        await Bike.findOneAndUpdate({'bike_id' : bike_id }, { 'status' : 'fixing' })
+        res.json('successful')
+    } catch (error) {
+        res.status(500).json(error)
+    }
+})
+
 router.delete('/return/:bike_id', async (req, res) => {
     const { bike_id } = req.params
 
